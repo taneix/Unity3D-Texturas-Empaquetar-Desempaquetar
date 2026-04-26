@@ -43,7 +43,7 @@ public class Texturas_desempaquetar:EditorWindow {
 
         GUILayout.Space(10);
 
-        // LÛgica de ruta autom·tica o manual
+        // L√≥gica de ruta autom√°tica o manual
         EditorGUI.BeginChangeCheck();
         carpeta = EditorGUILayout.TextField("Carpeta salida", carpeta);
         if (EditorGUI.EndChangeCheck()) {
@@ -52,7 +52,7 @@ public class Texturas_desempaquetar:EditorWindow {
 
         carpeta_interna = EditorGUILayout.TextField("Carpeta interna", carpeta_interna);
         nombre = EditorGUILayout.TextField("Nombre", nombre);
-        rutaAutomatica = EditorGUILayout.Toggle("Ruta autom·tica", rutaAutomatica);
+        rutaAutomatica = EditorGUILayout.Toggle("Ruta autom√°tica", rutaAutomatica);
 
         if (rutaAutomatica && input != null) {
             carpeta = ObtenerRutaTextura(input);
@@ -121,7 +121,7 @@ public class Texturas_desempaquetar:EditorWindow {
         foreach (var s in salidas) {
             Color[] result = new Color[pixels.Length];
 
-            // Usamos estas variables para detectar si la imagen es sÛlida
+            // Usamos estas variables para detectar si la imagen es s√≥lida
             bool tieneVariacion = false;
             float primerValor = -1f;
 
@@ -136,8 +136,8 @@ public class Texturas_desempaquetar:EditorWindow {
                 // Inicializamos con el primer pixel que encontremos
                 if (i == 0) primerValor = valorExtraido;
 
-                // Si cualquier pixel es diferente al primero, hay informaciÛn real (variaciÛn)
-                // Usamos un pequeÒo margen para ignorar ruidos Ìnfimos
+                // Si cualquier pixel es diferente al primero, hay informaci√≥n real (variaci√≥n)
+                // Usamos un peque√±o margen para ignorar ruidos √≠nfimos
                 if (Mathf.Abs(valorExtraido - primerValor) > 0.001f) {
                     tieneVariacion = true;
                 }
@@ -145,22 +145,22 @@ public class Texturas_desempaquetar:EditorWindow {
                 result[i] = new Color(valorExtraido, valorExtraido, valorExtraido, 1f);
             }
 
-            // --- VALIDACI”N MEJORADA ---
-            // Solo guardamos si la imagen NO es de un solo color sÛlido (blanco o negro)
-            // EXCEPCI”N: Si quieres guardar un color sÛlido a propÛsito, esta lÛgica lo saltar·.
+            // --- VALIDACI√ìN MEJORADA ---
+            // Solo guardamos si la imagen NO es de un solo color s√≥lido (blanco o negro)
+            // EXCEPCI√ìN: Si quieres guardar un color s√≥lido a prop√≥sito, esta l√≥gica lo saltar√°.
             if (tieneVariacion) {
                 Texture2D tex = Crear(w, h, result);
                 Guardar(tex, nombre + "_" + s.nombre + ".png");
                 DestroyImmediate(tex);
             } else {
-                string motivo = (primerValor > 0.9f) ? "Blanco sÛlido" : "Negro sÛlido";
-                Debug.LogWarning($"La salida '{s.nombre}' se saltÛ porque es un color {motivo} (Sin informaciÛn de m·scara).");
+                string motivo = (primerValor > 0.9f) ? "Blanco s√≥lido" : "Negro s√≥lido";
+                Debug.LogWarning($"La salida '{s.nombre}' se salt√≥ porque es un color {motivo} (Sin informaci√≥n de m√°scara).");
             }
         }
 
         DestroyImmediate(readableInput);
         AssetDatabase.Refresh();
-        Debug.Log("ExtracciÛn completada.");
+        Debug.Log("Extracci√≥n completada.");
     }
 
     Texture2D ForceReadable(Texture2D tex) {
@@ -207,11 +207,11 @@ public class Texturas_desempaquetar:EditorWindow {
         string rutaCompleta = Path.Combine(directiorio, nombre);
         File.WriteAllBytes(rutaCompleta, bytes);
 
-        // Configurar el Importador autom·ticamente
+        // Configurar el Importador autom√°ticamente
         AssetDatabase.ImportAsset(rutaCompleta);
         TextureImporter importer = AssetImporter.GetAtPath(rutaCompleta) as TextureImporter;
         if (importer != null) {
-            importer.sRGBTexture = false; // Importante para m·scaras lineales
+            importer.sRGBTexture = false; // Importante para m√°scaras lineales
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.SaveAndReimport();
         }
@@ -245,8 +245,8 @@ public class Texturas_desempaquetar:EditorWindow {
     }
 
     string LimpiarNombreTextura(string nombreOriginal) {
-        // 1. Definimos los sufijos comunes (puedes agregar m·s a esta lista)
-        // Agregamos tÈrminos en inglÈs y espaÒol
+        // 1. Definimos los sufijos comunes (puedes agregar m√°s a esta lista)
+        // Agregamos t√©rminos en ingl√©s y espa√±ol
         string[] sufijos = {
         "maskmap", "ao", "oclusion", "normal", "smoothness", "suavisado",
         "specular", "metal", "height", "altura", "roughness", "albedo", "diffuse", "basecolor"
@@ -254,15 +254,15 @@ public class Texturas_desempaquetar:EditorWindow {
 
         string resultado = nombreOriginal;
 
-        // 2. Creamos un patrÛn de b˙squeda:
-        // El patrÛn busca un guion bajo (_) seguido de cualquiera de los sufijos,
-        // permitiendo n˙meros extra o guiones bajos al final (como _02 o 2)
+        // 2. Creamos un patr√≥n de b√∫squeda:
+        // El patr√≥n busca un guion bajo (_) seguido de cualquiera de los sufijos,
+        // permitiendo n√∫meros extra o guiones bajos al final (como _02 o 2)
         foreach (string sufijo in sufijos) {
-            // ExplicaciÛn del Regex:
+            // Explicaci√≥n del Regex:
             // _           -> busca el guion bajo inicial
-            // (?i){sufijo} -> busca el sufijo ignorando may˙sculas/min˙sculas
-            // [\d_]* -> busca cualquier n˙mero (\d) o guion bajo (_) que siga despuÈs
-            // $           -> asegura que estÈ al final de la cadena (opcional, seg˙n prefieras)
+            // (?i){sufijo} -> busca el sufijo ignorando may√∫sculas/min√∫sculas
+            // [\d_]* -> busca cualquier n√∫mero (\d) o guion bajo (_) que siga despu√©s
+            // $           -> asegura que est√© al final de la cadena (opcional, seg√∫n prefieras)
             string patron = @"(?i)_" + sufijo + @"[\d_]*";
 
             resultado = Regex.Replace(resultado, patron, "");
