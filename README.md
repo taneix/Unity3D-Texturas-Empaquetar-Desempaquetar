@@ -26,3 +26,6 @@ Herramienta para Unity que permite gestionar canales de texturas de forma eficie
 
 ## 📄 Licencia
   Este proyecto está bajo la Licencia MIT. Esto significa que puedes usarlo libremente en tus proyectos personales y comerciales. Para más detalles, consulta el archivo LICENSE incluido en este repositorio.
+
+🤝 Contribuciones
+  ¡Cualquier sugerencia o mejora es bienvenida! Si encuentras un error o quieres añadir una funcionalidad, siéntete libre de abrir un Issue o enviar un Pull Request.
