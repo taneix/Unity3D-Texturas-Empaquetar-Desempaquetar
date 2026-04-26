@@ -29,12 +29,12 @@ public class Texturas_empaquetar:EditorWindow {
         rugosidad = (Texture2D)EditorGUILayout.ObjectField("Rugosidad (Gris)", rugosidad, typeof(Texture2D), false);
         normal = (Texture2D)EditorGUILayout.ObjectField("Mapa Normal", normal, typeof(Texture2D), false);
         especular = (Texture2D)EditorGUILayout.ObjectField("Especular (Opcional)", especular, typeof(Texture2D), false);
-        oclusionAmbiental = (Texture2D)EditorGUILayout.ObjectField("OclusiÛn (Gris)", oclusionAmbiental, typeof(Texture2D), false);
+        oclusionAmbiental = (Texture2D)EditorGUILayout.ObjectField("Oclusi√≥n (Gris)", oclusionAmbiental, typeof(Texture2D), false);
         altura = (Texture2D)EditorGUILayout.ObjectField("Altura (Gris)", altura, typeof(Texture2D), false);
 
         GUILayout.Space(10);
 
-        // GestiÛn de rutas
+        // Gesti√≥n de rutas
         EditorGUI.BeginChangeCheck();
         carpeta = EditorGUILayout.TextField("Ruta de guardado", carpeta);
         if (EditorGUI.EndChangeCheck()) {
@@ -43,7 +43,7 @@ public class Texturas_empaquetar:EditorWindow {
 
         carpeta_interna = EditorGUILayout.TextField("Carpeta interna", carpeta_interna);
         nombre = EditorGUILayout.TextField("Nombre base", nombre);
-        rutaAutomatica = EditorGUILayout.Toggle("Ruta autom·tica", rutaAutomatica);
+        rutaAutomatica = EditorGUILayout.Toggle("Ruta autom√°tica", rutaAutomatica);
 
         if (rutaAutomatica && albedo != null) {
             carpeta = ObtenerRutaTextura(albedo);
@@ -73,7 +73,7 @@ public class Texturas_empaquetar:EditorWindow {
         int w = rAlbedo.width;
         int h = rAlbedo.height;
 
-        // 2. Obtener arrays de pÌxeles
+        // 2. Obtener arrays de p√≠xeles
         Color[] pixAlbedo = rAlbedo.GetPixels();
         Color[] pixNormal = rNormal.GetPixels();
         Color[] pixRugosidad = rRugosidad.GetPixels();
@@ -87,10 +87,10 @@ public class Texturas_empaquetar:EditorWindow {
             // Pack 1: RGB + Rugosidad (Alfa)
             resultado1[i] = new Color(pixAlbedo[i].r, pixAlbedo[i].g, pixAlbedo[i].b, pixRugosidad[i].r);
 
-            // --- CORRECCI”N PARA EL CANAL R (NORMAL) ---
-            // Si la normal viene de un TextureType "Normal Map", el rojo real est· en el Alfa.
-            // Si viene de una textura "Default", el rojo est· en el Rojo.
-            // Esta lÛgica intenta detectar dÛnde hay datos:
+            // --- CORRECCI√ìN PARA EL CANAL R (NORMAL) ---
+            // Si la normal viene de un TextureType "Normal Map", el rojo real est√° en el Alfa.
+            // Si viene de una textura "Default", el rojo est√° en el Rojo.
+            // Esta l√≥gica intenta detectar d√≥nde hay datos:
             float nx = (pixNormal[i].a < 1.0f) ? pixNormal[i].a : pixNormal[i].r;
             float ny = pixNormal[i].g;
 
@@ -122,10 +122,10 @@ public class Texturas_empaquetar:EditorWindow {
         DestroyImmediate(tex2);
 
         AssetDatabase.Refresh();
-        Debug.Log("Empaquetado finalizado con Èxito.");
+        Debug.Log("Empaquetado finalizado con √©xito.");
     }
 
-    // Procesa la textura para que sea legible independientemente de su configuraciÛn de importaciÛn
+    // Procesa la textura para que sea legible independientemente de su configuraci√≥n de importaci√≥n
     Texture2D ForceReadable(Texture2D tex) {
         RenderTexture tmp = RenderTexture.GetTemporary(
             tex.width, tex.height, 0,
@@ -156,7 +156,7 @@ public class Texturas_empaquetar:EditorWindow {
         AssetDatabase.ImportAsset(rutaCompleta);
         TextureImporter importer = AssetImporter.GetAtPath(rutaCompleta) as TextureImporter;
         if (importer != null) {
-            // Forzamos tipo "Default" y sRGB desactivado para que los datos de normal y m·scaras sean exactos
+            // Forzamos tipo "Default" y sRGB desactivado para que los datos de normal y m√°scaras sean exactos
             importer.textureType = TextureImporterType.Default;
             importer.sRGBTexture = false;
             importer.alphaIsTransparency = false;
