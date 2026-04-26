@@ -23,3 +23,6 @@ Herramienta para Unity que permite gestionar canales de texturas de forma eficie
   En el panel Inspector, busca la casilla Read/Write Enabled.
   Actívala (que quede marcada).
   Haz clic en el botón Apply al final del Inspector.
+
+## 📄 Licencia
+  Este proyecto está bajo la Licencia MIT. Esto significa que puedes usarlo libremente en tus proyectos personales y comerciales. Para más detalles, consulta el archivo LICENSE incluido en este repositorio.
